@@ -2,8 +2,13 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardUser;
+use App\Http\Controllers\Core\AdminController;
 use App\Http\Controllers\Core\BookController;
 use App\Http\Controllers\Core\CategoryController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Core\LoanController;
+use App\Http\Controllers\Core\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +25,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::prefix('admin')->group(function (){
-    Route::resources([
-        'book'  => BookController::class,
-        'category' => CategoryController::class,
-    ]);
+    Route::middleware(['verified', 'isAdmin', 'auth'])->group(function () {
+        Route::resources([
+            'book'  => BookController::class,
+            'category' => CategoryController::class,
+            'admin' => AdminController::class,
+            'loan'  => LoanController::class,
+            'setting' => SettingController::class,
+        ]);
+    });
 });
-Route::resource('admin/book', BookController::class);
+
+Route::prefix('user')->group(function (){
+    Route::middleware(['verified', 'isUser', 'auth'])->group(function (){
+        Route::get('/dashboardUser', [DashboardUser::class, 'index'])->name('dashboardUser');
+    });
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

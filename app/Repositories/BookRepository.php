@@ -10,4 +10,52 @@ class BookRepository extends BaseRepository {
     {
         $this->model = $book;
     }
+
+    /**
+     * Handle get the specified data by id from models.
+     *
+     * @param int $id
+     * 
+     * @return mixed
+     */
+
+    public function show(int $id) : mixed
+    {
+        return $this->model->with('bookCategory')->where('id', $id)->first();
+    }
+
+    /**
+     * get paginated book
+     * 
+     * @param int $paginate
+     * @return object
+     */
+    public function getPaginated($paginate)
+    {
+        return $this->model->paginate($paginate);
+    }
+
+    /**
+     * Get ebook file Diskname
+     * 
+     *
+     * @return string
+     */
+
+    public function getFileDiskName(): string
+    {
+        return ('file_ebook');
+    }
+
+    /**
+     * Get ebook photo Diskname
+     * 
+     *
+     * @return string
+     */
+
+    public function getPhotoDiskName(): string
+    {
+        return ('photo_ebook');
+    }
 }

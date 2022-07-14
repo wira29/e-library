@@ -1,8 +1,8 @@
 <div class="modal fade" id="staticBackdropDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-        <form method="POST">
-            @method('POST')
+        <form id="form-delete" method="POST">
+            @method('DELETE')
             @csrf
         <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Hapus Buku</h5>
@@ -20,3 +20,13 @@
     </form>
     </div>
 </div>
+
+<script>
+    
+    function funDelete(book){
+        book = JSON.parse("[" + book + "]");
+
+        var id = book[0].id;
+        $('#form-delete').attr('action', `book/${id}`)
+    }
+</script>

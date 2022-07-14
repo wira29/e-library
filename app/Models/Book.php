@@ -12,4 +12,9 @@ class Book extends Model
     protected $table = 'book';
     protected $hidden = ['created_at', 'updated_at'];
     protected $guarded = ['id'];
+
+    public function bookCategory()
+    {
+        return $this->hasMany(BookCategory::class, 'id_book');
+    }
 }

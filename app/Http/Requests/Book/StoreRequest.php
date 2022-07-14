@@ -20,7 +20,9 @@ class StoreRequest extends BaseRequest
             'description' => 'required',
             'synopsis'  => 'required',
             'price'     => 'required',
-            'file'      => 'required',
+            'file'      => 'required|file|mimes:pdf',
+            'category'  => 'required',
+            'photo'     => 'mimes:jpg,png',
         ];
     }
 
@@ -39,6 +41,10 @@ class StoreRequest extends BaseRequest
             'synopsis.required'  => 'Sinopsis tidak boleh kosong !',
             'price.required'     => 'Harga sewa tidak boleh kosong !',
             'file.required'      => 'File tidak boleh kosong !',
+            'file.file'         => 'File tidak boleh kosong !',
+            'file.mimes'         => 'File harus berupa pdf !',
+            'category.required'  => 'Kategori tidak boleh kosong !',
+            'photo.mimes'        => 'Photo harus berupa jpg atau png !',
         ];
     }
 }

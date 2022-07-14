@@ -23,24 +23,14 @@ interface BaseInterface
     public function store(array $data): mixed;
 
     /**
-     * Handle the get paginated data event from models.
-     *
-     * @param int $pagination
-     * 
-     * @return mixed
-     */
-
-    public function getPaginated(int $pagination): mixed;
-
-    /**
      * Handle get the specified data by id from models.
      *
-     * @param string $id
+     * @param int $id
      * 
      * @return mixed
      */
 
-    public function show(string $id): mixed;
+    public function show(int $id): mixed;
 
     /**
      * Handle show method and update data instantly from models.
@@ -62,16 +52,4 @@ interface BaseInterface
      */
 
     public function destroy(string $id): mixed;
-
-    /**
-     * Handle relationship from models.
-     *
-     * @param array $relationship
-     * @param mixed $options
-     * @param int $pagination
-     * 
-     * @return mixed
-     */
-
-    public function withRelationship(array $relationship, mixed $options = 'get', int $pagination = null): mixed;
 }

@@ -76,13 +76,10 @@ class LoginController extends Controller
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
-
-            if(Auth::user()->id_role == 1){
-                return redirect('admin/book');
-            } else if (Auth::user()->id_role == 2){
-                dd('user');
+            if ($response = $this->authenticated($request, $this->guard()->user())) {
+                return $response;
             }
-            // return $this->sendLoginResponse($request);
+            return $this->sendLoginResponse($request);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -91,5 +88,21 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if($user->id_role == 1){
+            return redirect('admin/book');
+        } else if ($user->id_role == 2){
+            return redirect(route('dashboardUser'));
+        }
     }
 }

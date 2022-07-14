@@ -16,7 +16,7 @@ class CategoryService {
     }
 
     /**
-     * Get all category
+     * Get paginate category
      * 
      * @return void
      */
@@ -24,6 +24,16 @@ class CategoryService {
     {
         return $this->repository->getPaginated(9);
     }
+
+    /**
+      * get all data category
+      * @return void
+      */
+
+      public function getCategoryAll()
+      {
+         return $this->repository->getAll();
+      }
 
     /**
      * Store category

@@ -33,27 +33,14 @@ abstract class BaseRepository implements BaseInterface
     }
 
     /**
-     * Handle the get paginated data event from models.
-     *
-     * @param int $pagination
-     * 
-     * @return mixed
-     */
-
-    public function getPaginated(int $pagination): mixed
-    {
-        return $this->model->paginate($pagination);
-    }
-
-    /**
      * Handle get the specified data by id from models.
      *
-     * @param string $id
+     * @param int $id
      * 
      * @return mixed
      */
 
-    public function show(string $id): mixed
+    public function show(int $id): mixed
     {
         return $this->model->findOrFail($id);
     }
@@ -94,26 +81,4 @@ abstract class BaseRepository implements BaseInterface
      * 
      * @return mixed
      */
-
-    public function withRelationship(array $relationship, mixed $options = 'get', int $pagination = null): mixed
-    {
-        $query = $this->model->with($relationship);
-
-        switch ($options) {
-            case 'get':
-                $query = $query->get();
-                break;
-            case 'latest':
-                $query = $query->latest()->get();
-                break;
-            case 'oldest':
-                $query = $query->oldest()->get();
-                break;
-            case 'paginate':
-                $query = $query->paginate($pagination);
-                break;
-        }
-
-        return $query;
-    }
 }

@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 use App\Services\BookService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreRequest;
+use App\Http\Requests\Book\UpdateRequest;
+use App\Services\BookCategoryService;
+use App\Services\CategoryService;
 
 class BookController extends Controller
 {
-    private $service;
+    private $service, $categoryService, $bookCategoryService;
 
-    public function __construct(BookService $bookService)
+    public function __construct(BookService $bookService, CategoryService $categoryService, BookCategoryService $bookCategoryService)
     {
         $this->service = $bookService;
+        $this->categoryService = $categoryService;
+        $this->bookCategoryService = $bookCategoryService;
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +29,7 @@ class BookController extends Controller
     public function index()
     {
         $data = [
-            'book' => $this->service->getBook()
+            'book' => $this->service->getBook(),
         ];
 
         return view('back.book.index', $data);
@@ -37,7 +42,10 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'category' => $this->categoryService->getCategoryAll()
+        ];
+        return view('back.book.add', $data);
     }
 
     /**
@@ -48,7 +56,10 @@ class BookController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $this->service->storeBook($request);
+        $book = $this->service->storeBook($request);
+        if (!$book) return redirect()->back()->withErrors('File tidak boleh kosong !');
+        $this->bookCategoryService->storeBookCategory($request, $book);
+
         return redirect()->route('book.index')->with('success', 'Berhasil tambah buku');
     }
 
@@ -71,19 +82,25 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            'book' => $this->service->showBook($id),
+            'category' => $this->categoryService->getCategoryAll(),
+        ];
+        return view('back.book.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Book $book)
     {
-        //
+        $this->service->updateBook($request, $book);
+
+        return redirect()->route('book.index')->with('success', 'Berhasil edit buku');
     }
 
     /**
@@ -94,6 +111,8 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->service->destroy($id);
+
+        return redirect()->back()->with('success', 'Berhasil menghapus buku !');
     }
 }

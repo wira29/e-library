@@ -11,4 +11,15 @@ class CategoryRepository extends BaseRepository {
     {
         $this->model = $category;
     }
+    
+    /**
+     * get category paginated
+     * 
+     * @param int $paginate
+     * @return array
+     */
+    public function getPaginated($paginate)
+    {
+        return $this->model->paginate($paginate);
+    }
 }

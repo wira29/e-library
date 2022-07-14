@@ -5604,7 +5604,7 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
 	30. sticky-sidebarbar
 -----------------------*/
 
-.sticky-sidebar {
+/* .sticky-sidebar {
     position: fixed;
     border: 3px solid #555a64;
     top: 50%;
@@ -5659,8 +5659,8 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
     transition: ease all 0.8s;
     -webkit-transition: ease all 0.8s;
     -ms-transition: ease all 0.8s;
-}
-.tooltip-five {
+} */
+/* .tooltip-five {
     position: relative;
     text-align: center;
     margin: auto;
@@ -5696,7 +5696,7 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
 }
 .tooltip-five:hover .tooltiptext {
   	visibility: visible;
-}
+} */
 .sidebar-content {
     width: 500px;
     position: absolute;
