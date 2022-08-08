@@ -1,6 +1,7 @@
 import React from 'react'
 import avatar from "../assets/images/avatar/01.jpg"
 import element7 from "../assets/images/element/07.png"
+import { BookItem } from '../components'
 
 function Homepage() {
   return (
@@ -351,40 +352,7 @@ function Homepage() {
 				<div className="row g-4">
 
 					{/* <!-- Card item START --> */}
-					<div className="col-sm-6 col-lg-4 col-xl-3">
-						<div className="card shadow h-100">
-							{/* <!-- Image --> */}
-							<img src={require("../assets/images/courses/4by3/08.jpg")} className="card-img-top" alt="course image"/>
-							{/* <!-- Card body --> */}
-							<div className="card-body pb-0">
-								{/* <!-- Badge and favorite --> */}
-								<div className="d-flex justify-content-between mb-2">
-									<a href="#" className="badge bg-purple bg-opacity-10 text-purple">All level</a>
-									<a href="#" className="h6 mb-0"><i className="far fa-heart"></i></a>
-								</div>
-								{/* <!-- Title --> */}
-								<h5 className="card-title fw-normal"><a href="#">Sketch from A to Z: for app designer</a></h5>
-								<p className="mb-2 text-truncate-2">Proposal indulged no do sociable he throwing settling.</p>
-								{/* <!-- Rating star --> */}
-								<ul className="list-inline mb-0">
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="far fa-star text-warning"></i></li>
-									<li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
-								</ul>
-							</div>
-							{/* <!-- Card footer --> */}
-							<div className="card-footer pt-0 pb-3">
-								<hr/>
-								<div className="d-flex justify-content-between">
-									<span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2"></i>12h 56m</span>
-									<span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2"></i>15 lectures</span>
-								</div>
-							</div>
-						</div>
-					</div>
+					<BookItem title={"Sketch from A to Z: for app designer"} categories={['All level', 'Web']} desc={"Proposal indulged no do sociable he throwing settling."} image={"08.jpg"} author={"Tere Liye"} publisher={"Airlangga"} /> 
 					{/* <!-- Card item END --> */}
 
 				{/* </div> <!-- Row END --> */}
