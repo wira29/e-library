@@ -46,7 +46,7 @@ function Navbar() {
                 {(!state.isLogin) ? (
                   <>
                   <Link to="/sign-in" className="btn btn-primary-soft">Login</Link>
-                  <Link to="/courses" className="nav-link">Register</Link>
+                  <Link to="/sign-up" className="nav-link">Register</Link>
                   </>
                 ) : <Link to="/my-courses" className="nav-link">Buku Saya</Link>}
 

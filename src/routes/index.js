@@ -10,6 +10,7 @@ import Notfoundpage from '../pages/Notfoundpage'
 import Mycoursespage from '../pages/member/Mycoursespage'
 import Coursemodulepage from '../pages/member/Coursemodulepage'
 import Loginpage from '../pages/Loginpage'
+import Registerpage from '../pages/Registerpage'
 
 function index() {
   return (
@@ -28,6 +29,7 @@ function index() {
         </Route>
       </Route>
       <Route path='/sign-in' element={<Loginpage />} />
+      <Route path='/sign-up' element={<Registerpage />} />
       <Route path='/*' element={<Notfoundpage />} />
     </Routes>
   )
