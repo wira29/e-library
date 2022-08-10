@@ -1,17 +1,35 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import bg from "../assets/images/element/02.svg"
 import { login } from '../store/actions'
 import { useNavigate } from 'react-router-dom'
 import {useDispatch } from 'react-redux'
+import { loginApi } from '../helper/http/request'
 
 function Loginpage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+	const [email, setEmail] = useState('')
+	const [pass, setPass] = useState('')
+	const [error, setError] = useState([])
+
+	const fetchLogin = async (data) => {
+		await loginApi(data)
+	}
+
     const handleLogin = () => {
-        dispatch(login())
-        navigate("/", {replace: true})
+		const data = {
+			email : email,
+			password: pass
+		}
+		fetchLogin(data).then((res) => {
+			dispatch(login())
+			navigate("/", {replace: true})
+		}).catch((err) => {
+			err = err.response.data
+			setError([err.meta.message])
+		})
     }
 
   return (
@@ -62,6 +80,12 @@ function Loginpage() {
 							<h1 class="fs-2">Login into Eduport!</h1>
 							<p class="lead mb-4">Nice to see you! Please log in with your account.</p>
 
+							{(error.length > 0) ? (
+							<div class="alert alert-danger" role="alert">
+								{error.map((e) => e)}
+							</div>
+							) : null}
+
 							{/* <!--  Form START --> */}
 							<form>
 								{/* <!--  Email --> */}
@@ -69,7 +93,7 @@ function Loginpage() {
 									<label for="exampleInputEmail1" class="form-label">Email address *</label>
 									<div class="input-group input-group-lg">
 										<span class="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i class="bi bi-envelope-fill"></i></span>
-										<input type="email" class="form-control border-0 bg-light rounded-end ps-1" placeholder="E-mail" id="exampleInputEmail1" />
+										<input type="email" class="form-control border-0 bg-light rounded-end ps-1" placeholder="E-mail" id="exampleInputEmail1" value={email} onChange={(e) => setEmail(e.target.value)} />
 									</div>
 								</div>
 								{/* <!--  Password --> */}
@@ -77,7 +101,7 @@ function Loginpage() {
 									<label for="inputPassword5" class="form-label">Password *</label>
 									<div class="input-group input-group-lg">
 										<span class="input-group-text bg-light rounded-start border-0 text-secondary px-3"><i class="fas fa-lock"></i></span>
-										<input type="password" class="form-control border-0 bg-light rounded-end ps-1" placeholder="password" id="inputPassword5" />
+										<input type="password" class="form-control border-0 bg-light rounded-end ps-1" placeholder="password" id="inputPassword5" value={pass} onChange={(e) => setPass(e.target.value)} />
 									</div>
 									<div id="passwordHelpBlock" class="form-text">
 										Your password must be 8 characters at least 

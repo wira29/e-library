@@ -1,23 +1,24 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-function BookItem({image, title, desc, author, publisher, categories}) {
+function BookItem({ destination, image, title, desc, author, publisher, categories, id}) {
   return (
     <div className="col-sm-6 col-lg-4 col-xl-3">
         <div className="card shadow h-100">
             {/* <!-- Image --> */}
-            <img src={require(`../assets/images/courses/4by3/${image}`)} className="card-img-top" alt="course image"/>
+            <img src={`http://192.168.0.2:8000/storage/${image}`} className="card-img-top" alt="course image"/>
             {/* <!-- Card body --> */}
             <div className="card-body pb-0">
                 {/* <!-- Badge and favorite --> */}
-                <div className="d-flex justify-content-start mb-2">
+                {/* <div className="d-flex justify-content-start mb-2">
                     {
                         categories.map((e) => (
                             <a href="#" className="badge bg-purple bg-opacity-10 text-purple me-2">{e}</a>
                         ))
                     }
-                </div>
+                </div> */}
                 {/* <!-- Title --> */}
-                <h5 className="card-title fw-normal"><a href="#">{title}</a></h5>
+                <h5 className="card-title fw-normal"><Link to={`/books/${destination}`} state={{ id: id }}>{title}</Link></h5>
                 <p className="mb-2 text-truncate-2">{desc}</p>
             </div>
             {/* <!-- Card footer --> */}

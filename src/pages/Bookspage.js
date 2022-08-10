@@ -1,7 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import React, {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
+import Card from '../components/skeleton/Card'
+import { getAllBook, getBookPagination } from '../helper/http/request'
+import { BookItem, Pagination } from '../components'
 
 function Bookspage() {
+	const navigate = useNavigate()
+	const [page, setPage] = useState(1)
+
+	const fetchPagination = async (page) => {
+		const res = await getBookPagination(page)
+		return res.data
+	}
+
+	const switchToDetail = () => {
+		navigate('/books/test')
+	}
+	
+	const {data, status} = useQuery(['books', page], () => fetchPagination(page), {keepPreviousData: true})
+
   return (
     <main>
 
@@ -114,59 +132,28 @@ function Bookspage() {
 
 				{/* <!-- Course Grid START --> */}
 				<div className="row g-4">
-
-					{/* <!-- Card item START --> */}
-					<div className="col-sm-6 col-lg-4 col-xl-3">
-						<div className="card shadow h-100">
-							{/* <!-- Image --> */}
-							<img src={require("../assets/images/courses/4by3/08.jpg")} className="card-img-top" alt="course image"/>
-							{/* <!-- Card body --> */}
-							<div className="card-body pb-0">
-								{/* <!-- Badge and favorite --> */}
-								<div className="d-flex justify-content-between mb-2">
-									<a href="#" className="badge bg-purple bg-opacity-10 text-purple">All level</a>
-									<a href="#" className="h6 fw-light mb-0"><i className="far fa-heart"></i></a>
-								</div>
-								{/* <!-- Title --> */}
-								<h5 className="card-title"><Link to='/books/test'>Sketch from A to Z: for app designer</Link></h5>
-								{/* <!-- Rating star --> */}
-								<ul className="list-inline mb-0">
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="fas fa-star text-warning"></i></li>
-									<li className="list-inline-item me-0 small"><i className="far fa-star text-warning"></i></li>
-									<li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
-								</ul>
-							</div>
-							{/* <!-- Card footer --> */}
-							<div className="card-footer pt-0 pb-3">
-								<hr/>
-								<div className="d-flex justify-content-between">
-									<span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2"></i>12h 56m</span>
-									<span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2"></i>15 lectures</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					{/* <!-- Card item END --> */}
+					{(status === 'loading') ? (
+						<>
+							<Card col={"col-sm-6 col-lg-4 col-xl-3"} />
+							<Card col={"col-sm-6 col-lg-4 col-xl-3"} />
+							<Card col={"col-sm-6 col-lg-4 col-xl-3"} />
+							<Card col={"col-sm-6 col-lg-4 col-xl-3"} />
+						</>
+					) 
+					: data.data.map((val) => (
+						<>
+						<BookItem destination={val.slug} toDetail={switchToDetail} image={val.photo} author={val.author} desc={val.description} publisher={val.publisher} title={val.name} id={val.id} />
+						</>
+					))}
 
 				</div>
 				{/* <!-- Course Grid END --> */}
 
 				{/* <!-- Pagination START --> */}
-				<div className="col-12">
-					<nav className="mt-4 d-flex justify-content-center" aria-label="navigation">
-						<ul className="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-							<li className="page-item mb-0"><a className="page-link" href="#" tabindex="-1"><i className="fas fa-angle-double-left"></i></a></li>
-							<li className="page-item mb-0"><a className="page-link" href="#">1</a></li>
-							<li className="page-item mb-0 active"><a className="page-link" href="#">2</a></li>
-							<li className="page-item mb-0"><a className="page-link" href="#">..</a></li>
-							<li className="page-item mb-0"><a className="page-link" href="#">6</a></li>
-							<li className="page-item mb-0"><a className="page-link" href="#"><i className="fas fa-angle-double-right"></i></a></li>
-						</ul>
-					</nav>
-				</div>
+				{(status === "success") 
+				? <Pagination links={ data.meta.links } changePage={(idx) => setPage(idx)} currentPage={page} /> : null
+				}
+				
 				{/* <!-- Pagination END --> */}
 			</div>
 			{/* <!-- Main content END --> */}
@@ -193,8 +180,8 @@ function Bookspage() {
 		{/* <!-- Svg decoration --> */}
 		<figure className="position-absolute bottom-0 end-0 mb-5 d-none d-sm-block">
 			<svg className="rotate-130" width="258.7px" height="86.9px" viewBox="0 0 258.7 86.9">
-				<path stroke="white" fill="none" stroke-width="2" d="M0,7.2c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5 c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5s16-25.5,31.9-25.5"/>
-				<path stroke="white" fill="none" stroke-width="2" d="M0,57c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5 c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5s16-25.5,31.9-25.5"/>
+				<path stroke="white" fill="none" strokeWidth="2" d="M0,7.2c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5 c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5s16-25.5,31.9-25.5"/>
+				<path stroke="white" fill="none" strokeWidth="2" d="M0,57c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5 c16,0,16,25.5,31.9,25.5c16,0,16-25.5,31.9-25.5c16,0,16,25.5,31.9,25.5s16-25.5,31.9-25.5"/>
 			</svg>
 		</figure>
 		

@@ -12,14 +12,28 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Routes from '../routes';
 import { Suspense } from 'react';
 import Loadingpage from '../pages/Loadingpage';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+ 
 function App() {
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        suspense: true,
+      },
+    },
+  })
+
   return (
-    <Suspense fallback={<Loadingpage />}>
-      <Router>
-        <Routes />
-      </Router>
-    </Suspense>
+    <QueryClientProvider client={queryClient}>
+      <Suspense fallback={<Loadingpage />}>
+        <Router>
+          <Routes />
+        </Router>
+      </Suspense>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   );
 }
 
